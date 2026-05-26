@@ -218,6 +218,20 @@ def test_render_root_tip_dependencies_section_is_empty(contract: Path) -> None:
     assert "_No predecessors" in rendered
 
 
+def test_render_tip_completion_section_uses_tasks_prefix(contract: Path) -> None:
+    """Regression: the suggested ``mql5-completion-report --tip`` invocation
+    inside each rendered TIP file must point at ``tasks/TIP-NNN.md`` because
+    that is the path ``_write_outputs`` actually writes to. The earlier
+    rendering omitted the prefix and produced a "file not found" footgun
+    when a Builder copy-pasted the command from the project root.
+    """
+
+    graph = tgg.parse_contract(contract)
+    rendered = tgg.render_tip_file(graph.nodes[0], graph)
+    assert "mql5-completion-report --tip tasks/TIP-001.md " in rendered
+    assert "--tip TIP-001.md " not in rendered
+
+
 def test_render_task_graph_uses_mermaid(contract: Path) -> None:
     graph = tgg.parse_contract(contract)
     rendered = tgg.render_task_graph(graph)

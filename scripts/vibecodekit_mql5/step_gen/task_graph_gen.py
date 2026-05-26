@@ -377,7 +377,7 @@ def render_tip_file(node: TIPNode, graph: TaskGraph) -> str:
         (
             "When this TIP is complete, run `mql5-completion-report "
             "--tip "
-            f"{node.tip_id}.md "
+            f"tasks/{node.tip_id}.md "
             "--gate-reports <dir> --out completion-"
             f"{node.tip_id.split('-')[1]}.md` to emit the per-TIP "
             "Completion Report. Then update `status:` above to `DONE`."
